@@ -1,7 +1,7 @@
 /**
  * An arbitrary event, emitted by a {@link EventTarget}.
  */
-class Event {
+class MyEvent extends Event {
   /**
    * The unique name of this event type.
    */
@@ -13,22 +13,12 @@ class Event {
    */
   timestamp: number;
 
-  private _returnValue: boolean = true;
-
-  /**
-   * Prevents the default action of all DOM events related to this event.
-   */
-  preventDefault?: () => void;
-  /**
-   * Stops propagation of all DOM events related to this event.
-   */
-  stopPropagation?: () => void;
-
   /**
    * @constructor
    * @param type The unique name of this event type.
    */
   constructor(type: string) {
+    super(type);
     this.type = type;
     this.timestamp = new Date().getTime();
   }
@@ -52,20 +42,12 @@ class Event {
     // Do nothing by default
     console.log("Invoking legacy handler for event:", eventTarget)
   }
-
-  get returnValue(): boolean {
-    return this._returnValue;
-  }
-
-  set returnValue(value: boolean) {
-    this._returnValue = value;
-  }
 }
 
 /**
- * A {@link Event} that may relate to one or more DOM events.
+ * A {@link MyEvent} that may relate to one or more DOM events.
  */
-class DOMEvent extends Event {
+class DOMEvent extends MyEvent {
   /**
    * The DOM events that are related to this event, if any.
    */
@@ -85,7 +67,6 @@ class DOMEvent extends Event {
       for (const event of this.events) {
         if (event.preventDefault) {
           event.preventDefault();
-          event.returnValue = false;
         }
       }
     };
@@ -101,16 +82,17 @@ class DOMEvent extends Event {
   /**
    * Cancels all DOM events that are related to this event.
    */
-  cancelEvent(event: Event): void {
+  cancelEvent(event: MyEvent): void {
     if (event.stopPropagation) {
       event.stopPropagation();
     }
-    if (event.preventDefault) event.preventDefault();
-    event.returnValue = false;
+    if (event.preventDefault) {
+      event.preventDefault();
+    }
   }
 }
 
-type EventListener = (event: Event) => void;
+type EventListener = (event: MyEvent) => void;
 
 class EventTarget implements EventTarget {
   private listeners: Map<string, Set<EventListener>>;
@@ -135,12 +117,12 @@ class EventTarget implements EventTarget {
     })
   }
 
-  dispatch(event: Event): void {
+  dispatch(event: MyEvent): void {
     // Invoke any relevant legacy handler for the event
     event.invokeLegacyHandler(this);
 
     // Invoke all registered listeners
-    var relevantListeners = this.listeners.get(event.type)
+    let relevantListeners = this.listeners.get(event.type)
     if (relevantListeners) {
       relevantListeners.forEach((listener) => {
         listener(event);
@@ -166,5 +148,5 @@ class EventTarget implements EventTarget {
 }
 
 // 导出核心类和接口供其他模块使用
-export {Event, DOMEvent, EventTarget};
-export default Event;
+export {MyEvent, DOMEvent, EventTarget};
+export default MyEvent;

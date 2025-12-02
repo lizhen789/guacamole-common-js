@@ -219,7 +219,7 @@ class Client {
     }
   }
 
-  connect(data: string): void {
+  connect(data?: string): void {
     this.setState(ClientState.STATE_CONNECTING);
 
     try {
@@ -353,7 +353,7 @@ class Client {
     });
   }
 
-  importState(state: StateType, callback: any) {
+  importState(state: StateType, callback?: any) {
 
 
     let key;
