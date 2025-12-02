@@ -1,5 +1,5 @@
 import InputStream from "./InputStream";
-import Layer from "./Layer";
+import VisibleLayer from "./VisibleLayer";
 
 
 class VideoPlayer {
@@ -15,7 +15,7 @@ class VideoPlayer {
     // Default implementation - do nothing
   }
 
-  static getInstance(_stream: InputStream, _layer: Layer, _mimetype: string): VideoPlayer | null {
+  static getInstance(_stream: InputStream, _layer: VisibleLayer, _mimetype: string): VideoPlayer | null {
     return null;
   }
 }
