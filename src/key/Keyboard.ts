@@ -1,7 +1,7 @@
-import {noRepeat, quirks} from "./Constant";
+import {noRepeat, quirks} from "../Constant";
 import KeyEvent from "./KeyEvent";
-import ModifierState, {type ModifierStateType} from "./ModifierState";
-import {keysym_from_charcode} from "./utils";
+import ModifierState, {type ModifierStateType} from "../ModifierState";
+import {keysym_from_charcode} from "../utils";
 import KeydownEvent from "./KeydownEvent";
 import KeypressEvent from "./KeypressEvent";
 import KeyupEvent from "./KeyupEvent";

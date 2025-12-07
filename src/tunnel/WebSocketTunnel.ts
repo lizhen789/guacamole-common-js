@@ -1,6 +1,6 @@
 import Tunnel, {TunnelState} from "./Tunnel";
-import Status, {fromWebSocketCode, StatusCode} from "./Status";
-import {InstructionHandlerKey} from "./Client";
+import Status, {fromWebSocketCode, StatusCode} from "../Status";
+import {InstructionHandlerKey} from "../Client";
 
 class WebSocketTunnel extends Tunnel {
   private socket: WebSocket | undefined;

@@ -1,4 +1,4 @@
-import ModifierState from "./ModifierState";
+import ModifierState from "../ModifierState";
 
 class KeyEvent extends KeyboardEvent {
   private _orig: KeyboardEvent;

@@ -1,6 +1,6 @@
 import Tunnel, {TunnelState} from "./Tunnel";
-import Parser from "./Parser";
-import Status, {fromHTTPCode} from "./Status";
+import Parser from "../Parser";
+import Status, {fromHTTPCode} from "../Status";
 
 class StaticHTTPTunnel extends Tunnel {
   private xhr: XMLHttpRequest | null = null;
@@ -21,7 +21,7 @@ class StaticHTTPTunnel extends Tunnel {
     }
   }
 
-  sendMessage(..._elements: string[]) {
+  sendMessage(..._elements: any[]) {
 
   }
 

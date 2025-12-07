@@ -1,5 +1,5 @@
 import KeyEvent from "./KeyEvent";
-import {keysym_from_charcode} from "./utils";
+import {keysym_from_charcode} from "../utils";
 
 class KeypressEvent extends KeyEvent {
 

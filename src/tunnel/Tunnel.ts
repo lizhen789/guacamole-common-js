@@ -1,5 +1,5 @@
-import {InstructionHandlerKey} from "./Client";
-import Status from "./Status";
+import {InstructionHandlerKey} from "../Client";
+import Status from "../Status";
 
 enum TunnelState {
   CLOSED = 0,
@@ -81,7 +81,7 @@ class Tunnel {
    * @param _elements The elements of the message to send to the service on the other side
    *                 of the tunnel.
    */
-  sendMessage(..._elements: string[]): void {
+  sendMessage(..._elements: any[]): void {
     // 基础实现为空
   }
 
@@ -160,7 +160,8 @@ class Tunnel {
 }
 
 export {
-  TunnelState
+  TunnelState,
+  Tunnel
 }
 // 导出类供其他模块使用
 export default Tunnel;

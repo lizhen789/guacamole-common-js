@@ -1,4 +1,4 @@
-import Tunnel from "./Tunnel";
+import {Tunnel} from "./tunnel";
 import Display from "./Display";
 import OutputStream from "./OutputStream";
 import IntegerPool from "./IntegerPool";
@@ -7,7 +7,7 @@ import AudioPlayer from "./AudioPlayer";
 import VideoPlayer from "./VideoPlayer";
 import Parser from "./Parser";
 import GuacamoleObject from "./GuacamoleObject";
-import Status, {Code} from "./Status";
+import Status, {StatusCode} from "./Status";
 import InputStream from "./InputStream";
 import DefaultTransferFunction, {DefaultTransferFunctionType} from "./DefaultTransferFunction";
 import Layer from "./Layer";
@@ -602,7 +602,7 @@ class Client {
   private _ackHandler = (parameters: string[]) => {
     let stream_index = parseInt(parameters[0]);
     let reason = parameters[1];
-    let code: Code = parseInt(parameters[2]) as Code;
+    let code: StatusCode = parseInt(parameters[2]) as StatusCode;
 
     // Get stream
     let stream = this.outputStreams[stream_index];
@@ -833,7 +833,7 @@ class Client {
   };
   private _errorHandler = (parameters: string[]) => {
     let reason = parameters[0];
-    let code: Code = parseInt(parameters[1]) as Code;
+    let code: StatusCode = parseInt(parameters[1]) as StatusCode;
 
     // Call handler if defined
     if (this.onError) {

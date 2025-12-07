@@ -22,22 +22,26 @@ import IntegerPool from "./IntegerPool";
 import Object from "./GuacamoleObject";
 import Position from "./Position";
 import Status, {StatusCode} from "./Status";
-import Tunnel from "./Tunnel";
+import {HTTPTunnel, StaticHTTPTunnel, Tunnel, TunnelState, WebSocketTunnel} from "./tunnel";
 import VisibleLayer from "./VisibleLayer";
 import Display from "./Display";
-import {DOMEvent, EventTarget, MyEvent} from "./Event";
+import {GuacamoleDOMEvent, GuacamoleEvent, GuacamoleEventTarget} from "./Event";
 import {Frame, Instruction, PlaybackTunnel, SessionRecording} from "./SessionRecording";
 import {Key, Layout, OnScreenKeyboard} from "./OnScreenKeyboard";
-import {Mouse, Touchpad, Touchscreen} from "./Mouse";
+import {
+  Buttons,
+  GuacamoleMouseEvent,
+  GuacamoleMouseState,
+  Mouse,
+  MouseEventTarget,
+  Touchpad,
+  Touchscreen
+} from "./mouse";
 import {Layer, PixelImpl} from "./Layer";
-import Keyboard from "./Keyboard";
-import {GuacamoleTouchEvent, Touch, TouchState} from "./Touch";
+import {GuacamoleTouchEvent, Touch, TouchState} from "./touch";
 import VideoPlayer from "./VideoPlayer";
-import KeydownEvent from "./KeydownEvent";
-import KeyEvent from "./KeyEvent";
+import {Keyboard, KeydownEvent, KeyEvent, KeypressEvent, KeyupEvent} from "./key";
 import {API_VERSION} from "./Version";
-import KeypressEvent from "./KeypressEvent";
-import KeyupEvent from "./KeyupEvent";
 import ModifierState from "./ModifierState";
 
 export {
@@ -66,12 +70,11 @@ export {
   Position,
   Status,
   StatusCode,
-  Tunnel,
   Display,
   VisibleLayer,
-  MyEvent,
-  DOMEvent,
-  EventTarget,
+  GuacamoleEvent,
+  GuacamoleDOMEvent,
+  GuacamoleEventTarget,
   VideoPlayer,
   API_VERSION,
   SessionRecording,
@@ -81,9 +84,6 @@ export {
   OnScreenKeyboard,
   Layout,
   Key,
-  Mouse,
-  Touchpad,
-  Touchscreen,
   PixelImpl,
   Layer,
   Keyboard,
@@ -94,5 +94,17 @@ export {
   KeyEvent,
   KeypressEvent,
   KeyupEvent,
-  ModifierState
+  ModifierState,
+  Mouse,
+  Buttons,
+  GuacamoleMouseEvent,
+  GuacamoleMouseState,
+  MouseEventTarget,
+  Touchpad,
+  Touchscreen,
+  HTTPTunnel,
+  StaticHTTPTunnel,
+  TunnelState,
+  Tunnel,
+  WebSocketTunnel
 }

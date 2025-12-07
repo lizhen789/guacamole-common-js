@@ -1,5 +1,5 @@
 import Tunnel, {TunnelState} from "./Tunnel";
-import Status, {StatusCode} from "./Status";
+import Status, {StatusCode} from "../Status";
 
 class ChainedTunnel extends Tunnel {
   private connect_data?: string;

@@ -1,7 +1,7 @@
 /**
- * An arbitrary event, emitted by a {@link EventTarget}.
+ * An arbitrary event, emitted by a {@link GuacamoleEventTarget}.
  */
-class MyEvent extends Event {
+class GuacamoleEvent extends Event {
   /**
    * The unique name of this event type.
    */
@@ -36,18 +36,18 @@ class MyEvent extends Event {
    * Requests that the legacy event handler associated with this event be
    * invoked on the given event target.
    *
-   * @param eventTarget The {@link EventTarget} that emitted this event.
+   * @param eventTarget The {@link GuacamoleEventTarget} that emitted this event.
    */
-  invokeLegacyHandler(eventTarget: EventTarget): void {
+  invokeLegacyHandler(eventTarget: GuacamoleEventTarget): void {
     // Do nothing by default
     console.log("Invoking legacy handler for event:", eventTarget)
   }
 }
 
 /**
- * A {@link MyEvent} that may relate to one or more DOM events.
+ * A {@link GuacamoleEvent} that may relate to one or more DOM events.
  */
-class DOMEvent extends MyEvent {
+class GuacamoleDOMEvent extends GuacamoleEvent {
   /**
    * The DOM events that are related to this event, if any.
    */
@@ -82,7 +82,7 @@ class DOMEvent extends MyEvent {
   /**
    * Cancels all DOM events that are related to this event.
    */
-  cancelEvent(event: MyEvent): void {
+  public static cancelEvent(event: GuacamoleEvent): void {
     if (event.stopPropagation) {
       event.stopPropagation();
     }
@@ -92,9 +92,9 @@ class DOMEvent extends MyEvent {
   }
 }
 
-type EventListener = (event: MyEvent) => void;
+type EventListener = (event: GuacamoleEvent) => void;
 
-class EventTarget implements EventTarget {
+class GuacamoleEventTarget {
   private listeners: Map<string, Set<EventListener>>;
 
   constructor() {
@@ -117,7 +117,7 @@ class EventTarget implements EventTarget {
     })
   }
 
-  dispatch(event: MyEvent): void {
+  dispatch(event: GuacamoleEvent): void {
     // Invoke any relevant legacy handler for the event
     event.invokeLegacyHandler(this);
 
@@ -148,5 +148,5 @@ class EventTarget implements EventTarget {
 }
 
 // 导出核心类和接口供其他模块使用
-export {MyEvent, DOMEvent, EventTarget};
-export default MyEvent;
+export {GuacamoleEvent, GuacamoleDOMEvent, GuacamoleEventTarget};
+export default GuacamoleEvent;

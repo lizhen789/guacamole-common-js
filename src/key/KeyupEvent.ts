@@ -1,5 +1,5 @@
 import KeyEvent from "./KeyEvent";
-import {keysym_from_key_identifier, keysym_from_keycode} from "./utils";
+import {keysym_from_key_identifier, keysym_from_keycode} from "../utils";
 
 class KeyupEvent extends KeyEvent {
 

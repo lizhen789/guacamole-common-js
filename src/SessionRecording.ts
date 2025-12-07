@@ -1,4 +1,4 @@
-import Tunnel from "./Tunnel";
+import Tunnel from "./tunnel";
 import Client, {InstructionHandlerKey, StateType} from "./Client";
 
 class Instruction {

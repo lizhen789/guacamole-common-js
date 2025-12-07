@@ -1,6 +1,6 @@
-import Tunnel, {TunnelState} from "./Tunnel";
-import Status, {fromHTTPCode, StatusCode} from "./Status";
-import {InstructionHandlerKey} from "./Client";
+import {TunnelState,Tunnel} from "./Tunnel";
+import Status, {fromHTTPCode, StatusCode} from "../Status";
+import {InstructionHandlerKey} from "../Client";
 
 class HTTPTunnel extends Tunnel {
   private readonly TUNNEL_CONNECT: string;

@@ -1,6 +1,6 @@
 import KeyEvent from "./KeyEvent";
-import {quirks} from "./Constant";
-import {isPrintable, key_identifier_sane, keysym_from_key_identifier, keysym_from_keycode} from "./utils";
+import {quirks} from "../Constant";
+import {isPrintable, key_identifier_sane, keysym_from_key_identifier, keysym_from_keycode} from "../utils";
 
 class KeydownEvent extends KeyEvent {
   private readonly _keyupReliable: boolean;
