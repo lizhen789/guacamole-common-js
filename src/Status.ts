@@ -1,103 +1,103 @@
 /**
  * Enumeration of all Guacamole status codes.
  */
-class StatusCode {
-  public static readonly SUCCESS: 0x0000;
+enum StatusCode {
+  SUCCESS = 0x0000,
   /**
    * The requested operation is unsupported.
    */
-  public static readonly UNSUPPORTED: 0x0100;
+  UNSUPPORTED = 0x0100,
   /**
    * The operation could not be performed due to an internal failure.
    */
-  public static readonly SERVER_ERROR: 0x0200;
+  SERVER_ERROR = 0x0200,
   /**
    * The operation could not be performed as the server is busy.
    */
-  public static readonly SERVER_BUSY: 0x0201;
+  SERVER_BUSY = 0x0201,
   /**
    * The operation could not be performed because the upstream server is not
    * responding.
    */
-  public static readonly UPSTREAM_TIMEOUT: 0x0202;
+  UPSTREAM_TIMEOUT = 0x0202,
   /**
    * The operation was unsuccessful due to an error or otherwise unexpected
    * condition of the upstream server.
    */
-  public static readonly UPSTREAM_ERROR: 0x0203;
+  UPSTREAM_ERROR = 0x0203,
   /**
    * The operation could not be performed as the requested resource does not
    * exist.
    */
-  public static readonly RESOURCE_NOT_FOUND: 0x0204;
+  RESOURCE_NOT_FOUND = 0x0204,
   /**
    * The operation could not be performed as the requested resource is
    * already in use.
    */
-  public static readonly RESOURCE_CONFLICT: 0x0205;
+  RESOURCE_CONFLICT = 0x0205,
   /**
    * The operation could not be performed as the requested resource is now
    * closed.
    */
-  public static readonly RESOURCE_CLOSED: 0x0206;
+  RESOURCE_CLOSED = 0x0206,
   /**
    * The operation could not be performed because the upstream server does
    * not appear to exist.
    */
-  public static readonly UPSTREAM_NOT_FOUND: 0x0207;
+  UPSTREAM_NOT_FOUND = 0x0207,
   /**
    * The operation could not be performed because the upstream server is not
    * available to service the request.
    */
-  public static readonly UPSTREAM_UNAVAILABLE: 0x0208;
+  UPSTREAM_UNAVAILABLE = 0x0208,
   /**
    * The session within the upstream server has ended because it conflicted
    * with another session.
    */
-  public static readonly SESSION_CONFLICT: 0x0209;
+  SESSION_CONFLICT = 0x0209,
   /**
    * The session within the upstream server has ended because it appeared to
    * be inactive.
    */
-  public static readonly SESSION_TIMEOUT: 0x020a;
+  SESSION_TIMEOUT = 0x020a,
   /**
    * The session within the upstream server has been forcibly terminated.
    */
-  public static readonly SESSION_CLOSED: 0x020b;
+  SESSION_CLOSED = 0x020b,
   /**
    * The operation could not be performed because bad parameters were given.
    */
-  public static readonly CLIENT_BAD_REQUEST: 0x0300;
+  CLIENT_BAD_REQUEST = 0x0300,
   /**
    * Permission was denied to perform the operation, as the user is not yet
    * authorized (not yet logged in, for example).
    */
-  public static readonly CLIENT_UNAUTHORIZED: 0x0301;
+  CLIENT_UNAUTHORIZED = 0x0301,
   /**
    * Permission was denied to perform the operation, and this permission will
    * not be granted even if the user is authorized.
    */
-  public static readonly CLIENT_FORBIDDEN: 0x0303;
+  CLIENT_FORBIDDEN = 0x0303,
   /**
    * The client took too long to respond.
    */
-  public static readonly CLIENT_TIMEOUT: 0x0308;
+  CLIENT_TIMEOUT = 0x0308,
   /**
    * The client sent too much data.
    */
-  public static readonly CLIENT_OVERRUN: 0x030d;
+  CLIENT_OVERRUN = 0x030d,
   /**
    * The client sent data of an unsupported or unexpected type.
    */
-  public static readonly CLIENT_BAD_TYPE: 0x030f;
+  CLIENT_BAD_TYPE = 0x030f,
   /**
    * The operation failed because the current client is already using too
    * many resources.
    */
-  public static readonly CLIENT_TOO_MANY: 0x031d;
+  CLIENT_TOO_MANY = 0x031d,
 }
 
-export type Code = StatusCode[keyof StatusCode];
+
 
 /**
  * A Guacamole status. Each Guacamole status consists of a status code, defined
@@ -108,7 +108,7 @@ class Status {
   /**
    * The Guacamole status code.
    */
-  code: Code;
+  code: StatusCode;
 
   /**
    * An arbitrary human-readable message associated with this status, if any.
@@ -120,7 +120,7 @@ class Status {
    * @param code The Guacamole status code, as defined by Code.
    * @param [message] An optional human-readable message.
    */
-  constructor(code: Code, message?: string) {
+  constructor(code: StatusCode, message?: string) {
     this.code = code;
     this.message = message;
   }
@@ -141,7 +141,7 @@ class Status {
    * @param [message] An optional human-readable message.
    * @returns A new Guacamole.Status having the given status code and message.
    */
-  static fromCode(code: Code, message?: string): Status {
+  static fromCode(code: StatusCode, message?: string): Status {
     return new Status(code, message);
   }
 
@@ -152,7 +152,7 @@ class Status {
    * @param message A human-readable message describing the error.
    * @returns A new Guacamole.Status object which represents an error with the given message.
    */
-  static fromError(code: Code, message: string): Status {
+  static fromError(code: StatusCode, message: string): Status {
     return new Status(code, message);
   }
 }
