@@ -87,10 +87,10 @@ class Touch extends EventTarget {
 
   private touchstart(e: TouchEvent) {
     // Fire "ontouchstart" events for all new touches
-    for (var i = 0; i < e.changedTouches.length; i++) {
+    for (let i = 0; i < e.changedTouches.length; i++) {
 
-      var changedTouch = e.changedTouches[i];
-      var identifier = changedTouch.identifier;
+      let changedTouch = e.changedTouches[i];
+      let identifier = changedTouch.identifier;
 
       // Ignore duplicated touches
       if (this.touches[identifier]) {
@@ -98,7 +98,7 @@ class Touch extends EventTarget {
       }
 
 
-      var touch = this.touches[identifier] = new TouchState({
+      let touch = this.touches[identifier] = new TouchState({
         id: identifier,
         radiusX: changedTouch.radiusX || Touch.DEFAULT_CONTACT_RADIUS,
         radiusY: changedTouch.radiusY || Touch.DEFAULT_CONTACT_RADIUS,
@@ -117,13 +117,13 @@ class Touch extends EventTarget {
   private touchmove(e: TouchEvent) {
 
     // Fire "ontouchmove" events for all updated touches
-    for (var i = 0; i < e.changedTouches.length; i++) {
+    for (let i = 0; i < e.changedTouches.length; i++) {
 
-      var changedTouch = e.changedTouches[i];
-      var identifier = changedTouch.identifier;
+      let changedTouch = e.changedTouches[i];
+      let identifier = changedTouch.identifier;
 
       // Ignore any unrecognized touches
-      var touch = this.touches[identifier];
+      let touch = this.touches[identifier];
       if (!touch) {
         continue;
       }
@@ -150,13 +150,13 @@ class Touch extends EventTarget {
   private touchend(e: TouchEvent) {
 
     // Fire "ontouchend" events for all updated touches
-    for (var i = 0; i < e.changedTouches.length; i++) {
+    for (let i = 0; i < e.changedTouches.length; i++) {
 
-      var changedTouch = e.changedTouches[i];
-      var identifier = changedTouch.identifier;
+      let changedTouch = e.changedTouches[i];
+      let identifier = changedTouch.identifier;
 
       // Ignore any unrecognized touches
-      var touch = this.touches[identifier];
+      let touch = this.touches[identifier];
       if (!touch) {
         continue;
       }
