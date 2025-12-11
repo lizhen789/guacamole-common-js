@@ -21,11 +21,11 @@ class VisibleLayer extends Layer {
 
   private __unique_id = VisibleLayer.__next_id++
 
-  private children: Record<number, VisibleLayer>;
+  private _children: Record<number, VisibleLayer>;
 
   constructor(width: number, height: number) {
     super(width, height);
-    this.children = {};
+    this._children = {};
     const canvas = this.getCanvas();
     canvas.style.position = "absolute";
     canvas.style.left = "0px";
@@ -73,11 +73,11 @@ class VisibleLayer extends Layer {
 
       // Maintain relationship
       if (this.parent) {
-        delete this.parent.children[this.__unique_id];
+        delete this.parent._children[this.__unique_id];
       }
 
       this.parent = parent;
-      parent.children[this.__unique_id] = this;
+      parent._children[this.__unique_id] = this;
 
       // Reparent element
       let parent_element = parent.getElement();
@@ -99,7 +99,7 @@ class VisibleLayer extends Layer {
   dispose(): void {
     // Remove element from parent
     if (this.parent) {
-      delete this.parent.children[this.__unique_id];
+      delete this.parent._children[this.__unique_id];
       this.parent = undefined;
     }
     if (this.element.parentNode)
@@ -167,6 +167,10 @@ class VisibleLayer extends Layer {
 
   set parent(value: VisibleLayer | undefined) {
     this._parent = value;
+  }
+
+  get children(): Record<number, VisibleLayer> {
+    return this._children;
   }
 }
 

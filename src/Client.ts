@@ -3,7 +3,7 @@ import Display from "./Display";
 import OutputStream from "./OutputStream";
 import IntegerPool from "./IntegerPool";
 import VisibleLayer from "./VisibleLayer";
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer, {getInstance} from "./AudioPlayer";
 import VideoPlayer from "./VideoPlayer";
 import Parser from "./Parser";
 import GuacamoleObject from "./GuacamoleObject";
@@ -109,7 +109,7 @@ class Client {
   /**
    * Translation from Guacamole protocol line caps to Layer line caps.
    */
-  private lineCap: Record<number, string> = {
+  private lineCap: Record<number, CanvasLineCap> = {
     0: "butt",
     1: "round",
     2: "square"
@@ -118,7 +118,7 @@ class Client {
   /**
    * Translation from Guacamole protocol line joins to Layer line joins.
    */
-  private lineJoin: Record<number, string> = {
+  private lineJoin: Record<number, CanvasLineJoin> = {
     0: "bevel",
     1: "miter",
     2: "round"
@@ -274,7 +274,7 @@ class Client {
     return null;
   }
 
-  getLayer(index: number): VisibleLayer {
+  getLayer(index: number) {
 
     // Get layer, create if necessary
     let layer = this.layers[index];
@@ -394,10 +394,10 @@ class Client {
 
         // Apply layer position and set parent
         let parent = this.getLayer(importLayer.parent);
-        this.display.move(layer, parent, importLayer.x, importLayer.y, importLayer.z);
+        this.display.move(layer, parent, importLayer.x!, importLayer.y!, importLayer.z!);
 
         // Set layer transparency
-        this.display.shade(layer, importLayer.alpha);
+        this.display.shade(layer, importLayer.alpha!);
 
         // Apply matrix transform
         let matrix = importLayer.matrix;
@@ -423,7 +423,7 @@ class Client {
     this.tunnel.sendMessage("size", width, height);
   }
 
-  sendKeyEvent(pressed: number, keysym: boolean) {
+  sendKeyEvent(pressed: boolean, keysym: number) {
     // Do not send requests if not connected
     if (!this.isConnected()) {
       return;
@@ -663,7 +663,7 @@ class Client {
 
     // If unsuccessful, try to use a default implementation
     if (!audioPlayer) {
-      audioPlayer = AudioPlayer.getInstance(stream, mimetype);
+      audioPlayer = getInstance(stream, mimetype);
     }
 
     // If we have successfully retrieved an audio player, send success response
@@ -936,7 +936,7 @@ class Client {
     let srcLayer = this.getLayer(parseInt(parameters[2]));
 
     this.display.setChannelMask(layer, channelMask);
-    this.display.strokeLayer(layer, srcLayer);
+    this.display.strokeLayer(layer, "butt", "round", 0, srcLayer);
   };
 
   private _mouseHandler = (parameters: string[]) => {

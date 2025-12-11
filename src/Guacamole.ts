@@ -1,8 +1,8 @@
 import ArrayBufferReader from "./ArrayBufferReader";
 import ArrayBufferWriter from "./ArrayBufferWriter";
 import AudioContextFactory from "./AudioContextFactory";
-import AudioPlayer from "./AudioPlayer";
-import AudioRecorder from "./AudioRecorder";
+import {AudioPlayer, getInstance as getAudioPlayerInstance} from "./AudioPlayer";
+import {AudioRecorder, getInstance as getAudioRecorderInstance} from "./AudioRecorder";
 import RawAudioFormat from "./RawAudioFormat";
 import RawAudioPlayer from "./RawAudioPlayer";
 import RawAudioRecorder from "./RawAudioRecorder";
@@ -19,12 +19,14 @@ import UTF8Parser from "./UTF8Parser";
 import Client from "./Client";
 import InputSink from "./InputSink";
 import IntegerPool from "./IntegerPool";
-import Object from "./GuacamoleObject";
+import GuacamoleObject from "./GuacamoleObject";
 import Position from "./Position";
 import Status, {StatusCode} from "./Status";
 import {HTTPTunnel, StaticHTTPTunnel, Tunnel, TunnelState, WebSocketTunnel} from "./tunnel";
 import VisibleLayer from "./VisibleLayer";
 import Display from "./Display";
+import DisplayFrame from "./DisplayFrame";
+import DisplayTask from "./DisplayTask";
 import {GuacamoleDOMEvent, GuacamoleEvent, GuacamoleEventTarget} from "./Event";
 import {Frame, Instruction, PlaybackTunnel, SessionRecording} from "./SessionRecording";
 import {Key, Layout, OnScreenKeyboard} from "./OnScreenKeyboard";
@@ -66,7 +68,7 @@ export {
   Client,
   InputSink,
   IntegerPool,
-  Object,
+  GuacamoleObject,
   Position,
   Status,
   StatusCode,
@@ -106,5 +108,9 @@ export {
   StaticHTTPTunnel,
   TunnelState,
   Tunnel,
-  WebSocketTunnel
+  WebSocketTunnel,
+  DisplayFrame,
+  DisplayTask,
+  getAudioPlayerInstance,
+  getAudioRecorderInstance
 }

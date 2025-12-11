@@ -27,8 +27,8 @@ class Keyboard {
   onKeyDown?: (key: number) => boolean;
   onKeyUp?: (key: number) => void;
 
-  constructor(element: HTMLElement) {
-    this.element = element;
+  constructor(element: HTMLElement | Document) {
+    this.element = element instanceof Document ? element.body : element;
     if (navigator && navigator.platform) {
 
       // All keyup events are unreliable on iOS (sadly)
@@ -45,7 +45,7 @@ class Keyboard {
     this.modifiers = new ModifierState();
     // Listen to given element, if any
     if (element) {
-      this.listenTo(element);
+      this.listenTo(this.element);
     }
   }
 

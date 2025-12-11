@@ -10,7 +10,7 @@ import Status, {StatusCode} from "./Status";
  * audio. This recorder relies only on the Web Audio API and does not require any
  * browser-level support for its audio formats.
  */
-class RawAudioRecorder extends AudioRecorder {
+class RawAudioRecorder implements AudioRecorder {
 
   /**
    * The size of audio buffer to request from the Web Audio API when
@@ -94,7 +94,6 @@ class RawAudioRecorder extends AudioRecorder {
    *                 parameters.
    */
   constructor(stream: OutputStream, mimetype: string) {
-    super();
     const format = RawAudioFormat.parse(mimetype);
     if (!format) {
       throw new Error(`Unsupported mimetype: ${mimetype}`);
@@ -119,6 +118,12 @@ class RawAudioRecorder extends AudioRecorder {
 
     // Once audio stream is successfully open, request and begin reading audio
     this.writer.onAck = (status: Status) => this.audioStreamAcknowledged(status);
+  }
+  onClose(){
+
+  }
+  onError(){
+
   }
 
   /**
@@ -293,7 +298,7 @@ class RawAudioRecorder extends AudioRecorder {
     this.writer.sendEnd();
 
     // Notify of closure
-    if (this.onError){
+    if (this.onError) {
       this.onError();
     }
   }
@@ -383,50 +388,55 @@ class RawAudioRecorder extends AudioRecorder {
     }
   }
 
-  /**
-   * Determines whether the given mimetype is supported by
-   * Guacamole.RawAudioRecorder.
-   *
-   * @param mimetype
-   *     The mimetype to check.
-   *
-   * @returns
-   *     true if the given mimetype is supported by Guacamole.RawAudioRecorder,
-   *     false otherwise.
-   */
-  static isSupportedType(mimetype: string): boolean {
-    // No supported types if no Web Audio API
-    if (!AudioContextFactory.getAudioContext())
-      return false;
-
-    return RawAudioFormat.parse(mimetype) !== null;
-  }
-
-  /**
-   * Returns a list of all mimetypes supported by Guacamole.RawAudioRecorder. Only
-   * the core mimetypes themselves will be listed. Any mimetype parameters, even
-   * required ones, will not be included in the list. For example, "audio/L8" is
-   * a raw audio mimetype that may be supported, but it is invalid without
-   * additional parameters. Something like "audio/L8;rate=44100" would be valid,
-   * however (see https://tools.ietf.org/html/rfc4856).
-   *
-   * @returns
-   *     A list of all mimetypes supported by Guacamole.RawAudioRecorder,
-   *     excluding any parameters. If the necessary JavaScript APIs for recording
-   *     raw audio are absent, this list will be empty.
-   */
-  static getSupportedTypes(): string[] {
-    // No supported types if no Web Audio API
-    if (!AudioContextFactory.getAudioContext())
-      return [];
-
-    // We support 8-bit and 16-bit raw PCM
-    return [
-      'audio/L8',
-      'audio/L16'
-    ];
-  }
 }
 
+
+/**
+ * Determines whether the given mimetype is supported by
+ * Guacamole.RawAudioRecorder.
+ *
+ * @param mimetype
+ *     The mimetype to check.
+ *
+ * @returns
+ *     true if the given mimetype is supported by Guacamole.RawAudioRecorder,
+ *     false otherwise.
+ */
+const isSupportedType = (mimetype: string): boolean => {
+  // No supported types if no Web Audio API
+  if (!AudioContextFactory.getAudioContext())
+    return false;
+
+  return RawAudioFormat.parse(mimetype) !== null;
+}
+
+/**
+ * Returns a list of all mimetypes supported by Guacamole.RawAudioRecorder. Only
+ * the core mimetypes themselves will be listed. Any mimetype parameters, even
+ * required ones, will not be included in the list. For example, "audio/L8" is
+ * a raw audio mimetype that may be supported, but it is invalid without
+ * additional parameters. Something like "audio/L8;rate=44100" would be valid,
+ * however (see https://tools.ietf.org/html/rfc4856).
+ *
+ * @returns
+ *     A list of all mimetypes supported by Guacamole.RawAudioRecorder,
+ *     excluding any parameters. If the necessary JavaScript APIs for recording
+ *     raw audio are absent, this list will be empty.
+ */
+const getSupportedTypes = (): string[] => {
+  // No supported types if no Web Audio API
+  if (!AudioContextFactory.getAudioContext())
+    return [];
+
+  // We support 8-bit and 16-bit raw PCM
+  return [
+    'audio/L8',
+    'audio/L16'
+  ];
+}
+export {
+  isSupportedType,
+  getSupportedTypes
+}
 // 导出类供其他模块使用
 export default RawAudioRecorder;

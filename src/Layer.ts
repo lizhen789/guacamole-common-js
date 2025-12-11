@@ -308,7 +308,6 @@ class Layer {
   }
 
 
-
   /**
    * 在给定坐标处绘制指定图像。指定的图像必须已经加载。
    *
@@ -316,13 +315,14 @@ class Layer {
    * @param y 目标Y坐标。
    * @param image 要绘制的图像。注意这不是URL。
    */
-  public drawImage(x: number, y: number, image: CanvasImageSource): void {
+  public drawImage(x: number, y: number, image: ImageBitmap | HTMLImageElement | HTMLVideoElement): void {
     if (this.layer.autosize) {
-      this.fitRect(x, y, (image as HTMLImageElement).width || 0, (image as HTMLImageElement).height || 0);
+      this.fitRect(x, y, image?.width || 0, image?.height || 0);
     }
     this.context.drawImage(image, x, y);
     this.empty = false;
   }
+
   /**
    * 使用指定的传递函数将图像数据的矩形从一个Layer传输到此Layer。
    *
