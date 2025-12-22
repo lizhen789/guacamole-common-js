@@ -111,16 +111,16 @@ class Mouse extends MouseEventTarget {
     this.PIXELS_PER_PAGE = this.PIXELS_PER_LINE * 16;
 
     // Block context menu so right-click gets sent properly
-    element.addEventListener("contextmenu", this._contextmenu, false);
-    element.addEventListener("mousemove", this._mousemove, false);
-    element.addEventListener("mousedown", this._mousedown, false);
-    element.addEventListener("mouseup", this._mouseup, false);
-    element.addEventListener("mouseout", this._mouseout, false);
-    element.addEventListener("selectstart", this._selectstart, false);
-    element.addEventListener("touchmove", this._ignorePendingMouseEvents, false);
-    element.addEventListener("touchstart", this._ignorePendingMouseEvents, false);
-    element.addEventListener("touchend", this._ignorePendingMouseEvents, false);
-    element.addEventListener('wheel', this._mousewheel_handler, false);
+    element.addEventListener("contextmenu", this._contextmenu.bind(this), false);
+    element.addEventListener("mousemove", this._mousemove.bind(this), false);
+    element.addEventListener("mousedown", this._mousedown.bind(this), false);
+    element.addEventListener("mouseup", this._mouseup.bind(this), false);
+    element.addEventListener("mouseout", this._mouseout.bind(this), false);
+    element.addEventListener("selectstart", this._selectstart.bind(this), false);
+    element.addEventListener("touchmove", this._ignorePendingMouseEvents.bind(this), { passive: true });
+    element.addEventListener("touchstart", this._ignorePendingMouseEvents.bind(this), { passive: true });
+    element.addEventListener("touchend", this._ignorePendingMouseEvents.bind(this), { passive: true });
+    element.addEventListener('wheel', this._mousewheel_handler.bind(this), { passive: true });
   }
 
   private _contextmenu(e: PointerEvent) {
@@ -134,7 +134,6 @@ class Mouse extends MouseEventTarget {
       this.ignore_mouse--;
       return;
     }
-
     this.move(Position.fromClientPosition(this.element, e.clientX, e.clientY), e as unknown as GuacamoleDOMEvent);
   }
 

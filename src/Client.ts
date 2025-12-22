@@ -344,12 +344,10 @@ class Client {
 
         // Store exported layer
         state.layers[key] = exportLayer;
-
       }
 
       // Invoke callback now that the state is ready
       callback(state);
-
     });
   }
 

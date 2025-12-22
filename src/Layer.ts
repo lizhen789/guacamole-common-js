@@ -72,10 +72,6 @@ class Layer {
    * 合成操作"src"的通道掩码。
    */
   public static readonly SRC = 0xC;
-  /**
-   * 参考当前Layer实例。
-   */
-  private layer: Layer;
 
   /**
    * 层的宽度或高度必须变化的像素数，之后才会调整底层canvas的大小。
@@ -153,7 +149,6 @@ class Layer {
    * @param height 层的高度（以像素为单位）。支持此Layer的canvas元素将被赋予此高度。
    */
   constructor(width: number, height: number) {
-    this.layer = this;
     this.width = width;
     this.height = height;
 
@@ -179,7 +174,7 @@ class Layer {
   public resize(newWidth: number, newHeight: number): void {
     newWidth = newWidth ?? 0;
     newHeight = newHeight ?? 0;
-    if (newWidth !== this.layer.width || newHeight !== this.layer.height) {
+    if (newWidth !== this.width || newHeight !== this.height) {
       this.resizeInternal(newWidth, newHeight);
     }
   }
@@ -203,18 +198,18 @@ class Layer {
 
     // 确定最大宽度
     let resizeWidth: number;
-    if (opBoundX > this.layer.width) {
+    if (opBoundX > this.width) {
       resizeWidth = opBoundX;
     } else {
-      resizeWidth = this.layer.width;
+      resizeWidth = this.width;
     }
 
     // 确定最大高度
     let resizeHeight: number;
-    if (opBoundY > this.layer.height) {
+    if (opBoundY > this.height) {
       resizeHeight = opBoundY;
     } else {
-      resizeHeight = this.layer.height;
+      resizeHeight = this.height;
     }
 
     // 必要时调整大小
@@ -240,12 +235,12 @@ class Layer {
   public toCanvas(): HTMLCanvasElement {
     // 创建具有相同尺寸的新canvas
     const canvas = document.createElement('canvas');
-    canvas.width = this.layer.width;
-    canvas.height = this.layer.height;
+    canvas.width = this.width;
+    canvas.height = this.height;
 
     // 将图像内容复制到新canvas
     const context = canvas.getContext('2d')!;
-    context.drawImage(this.layer.getCanvas(), 0, 0);
+    context.drawImage(this.getCanvas(), 0, 0);
 
     return canvas;
   }
@@ -269,8 +264,8 @@ class Layer {
       if (!this.empty && this.canvas.width !== 0 && this.canvas.height !== 0) {
         // 创建用于保存旧数据的canvas和上下文
         oldData = document.createElement("canvas");
-        oldData.width = Math.min(this.layer.width, newWidth);
-        oldData.height = Math.min(this.layer.height, newHeight);
+        oldData.width = Math.min(this.width, newWidth);
+        oldData.height = Math.min(this.height, newHeight);
 
         const oldDataContext = oldData.getContext("2d")!;
 
@@ -303,8 +298,8 @@ class Layer {
     }
 
     // 分配新的层尺寸
-    this.layer.width = newWidth;
-    this.layer.height = newHeight;
+    this.width = newWidth;
+    this.height = newHeight;
   }
 
 
@@ -316,7 +311,7 @@ class Layer {
    * @param image 要绘制的图像。注意这不是URL。
    */
   public drawImage(x: number, y: number, image: ImageBitmap | HTMLImageElement | HTMLVideoElement): void {
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, image?.width || 0, image?.height || 0);
     }
     this.context.drawImage(image, x, y);
@@ -327,42 +322,42 @@ class Layer {
    * 使用指定的传递函数将图像数据的矩形从一个Layer传输到此Layer。
    *
    * @param srcLayer 要复制图像数据的源Layer。
-   * @param srcx 要从中复制数据的源Layer坐标空间中矩形左上角的X坐标。
-   * @param srcy 要从中复制数据的源Layer坐标空间中矩形左上角的Y坐标。
-   * @param srcw 要从中复制数据的源Layer坐标空间中矩形的宽度。
-   * @param srch 要从中复制数据的源Layer坐标空间中矩形的高度。
+   * @param srcX 要从中复制数据的源Layer坐标空间中矩形左上角的X坐标。
+   * @param srcY 要从中复制数据的源Layer坐标空间中矩形左上角的Y坐标。
+   * @param srcWidth 要从中复制数据的源Layer坐标空间中矩形的宽度。
+   * @param srcHeight 要从中复制数据的源Layer坐标空间中矩形的高度。
    * @param x 目标X坐标。
    * @param y 目标Y坐标。
    * @param transferFunction 用于将数据从源传输到目标的传递函数。
    */
-  public transfer(srcLayer: Layer, srcx: number, srcy: number, srcw: number, srch: number, x: number, y: number, transferFunction: (srcPixel: Pixel, dstPixel: Pixel) => void): void {
+  public transfer(srcLayer: Layer, srcX: number, srcY: number, srcWidth: number, srcHeight: number, x: number, y: number, transferFunction: (srcPixel: Pixel, dstPixel: Pixel) => void): void {
     const srcCanvas = srcLayer.getCanvas();
 
     // 如果整个矩形在源canvas之外，则停止
-    if (srcx >= srcCanvas.width || srcy >= srcCanvas.height) return;
+    if (srcX >= srcCanvas.width || srcY >= srcCanvas.height) return;
 
     // 否则，将矩形裁剪到区域
-    if (srcx + srcw > srcCanvas.width) {
-      srcw = srcCanvas.width - srcx;
+    if (srcX + srcWidth > srcCanvas.width) {
+      srcWidth = srcCanvas.width - srcX;
     }
 
-    if (srcy + srch > srcCanvas.height) {
-      srch = srcCanvas.height - srcy;
+    if (srcY + srcHeight > srcCanvas.height) {
+      srcHeight = srcCanvas.height - srcY;
     }
 
     // 如果没有要绘制的内容，则停止
-    if (srcw === 0 || srch === 0) return;
+    if (srcWidth === 0 || srcHeight === 0) return;
 
-    if (this.layer.autosize) {
-      this.fitRect(x, y, srcw, srch);
+    if (this.autosize) {
+      this.fitRect(x, y, srcWidth, srcHeight);
     }
 
     // 从源和目标获取图像数据
-    const src = srcLayer.getCanvas().getContext("2d")!.getImageData(srcx, srcy, srcw, srch);
-    const dst = this.context.getImageData(x, y, srcw, srch);
+    const src = srcLayer.getCanvas().getContext("2d")!.getImageData(srcX, srcY, srcWidth, srcHeight);
+    const dst = this.context.getImageData(x, y, srcWidth, srcHeight);
 
     // 为每个像素应用传递函数
-    for (let i = 0; i < srcw * srch * 4; i += 4) {
+    for (let i = 0; i < srcWidth * srcHeight * 4; i += 4) {
       // 获取源像素环境
       const src_pixel: Pixel = {
         red: src.data[i],
@@ -423,7 +418,7 @@ class Layer {
     // 如果没有要绘制的内容，则停止
     if (srcw === 0 || srch === 0) return;
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, srcw, srch);
     }
 
@@ -464,7 +459,7 @@ class Layer {
     // 如果没有要绘制的内容，则停止
     if (srcw === 0 || srch === 0) return;
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, srcw, srch);
     }
     this.context.drawImage(srcCanvas, srcx, srcy, srcw, srch, x, y, srcw, srch);
@@ -484,7 +479,7 @@ class Layer {
       this.pathClosed = false;
     }
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, 0, 0);
     }
     this.context.moveTo(x, y);
@@ -503,7 +498,7 @@ class Layer {
       this.pathClosed = false;
     }
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, 0, 0);
     }
     this.context.lineTo(x, y);
@@ -526,7 +521,7 @@ class Layer {
       this.pathClosed = false;
     }
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, 0, 0);
     }
     this.context.arc(x, y, radius, startAngle, endAngle, negative);
@@ -549,7 +544,7 @@ class Layer {
       this.pathClosed = false;
     }
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, 0, 0);
     }
     this.context.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
@@ -578,7 +573,7 @@ class Layer {
       this.pathClosed = false;
     }
 
-    if (this.layer.autosize) {
+    if (this.autosize) {
       this.fitRect(x, y, w, h);
     }
     this.context.rect(x, y, w, h);

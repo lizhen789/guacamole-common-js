@@ -6,11 +6,11 @@
     "dist"
   ],
   "type": "module",
-  "module": "dist/index.js",
+  "module": "dist/index.ts",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/index.ts",
       "types": "./dist/index.d.ts"
     }
   },

@@ -2,10 +2,6 @@
  * An arbitrary event, emitted by a {@link GuacamoleEventTarget}.
  */
 class GuacamoleEvent extends Event {
-  /**
-   * The unique name of this event type.
-   */
-  type: string;
 
   /**
    * An arbitrary timestamp in milliseconds, indicating this event's
@@ -19,7 +15,6 @@ class GuacamoleEvent extends Event {
    */
   constructor(type: string) {
     super(type);
-    this.type = type;
     this.timestamp = new Date().getTime();
   }
 

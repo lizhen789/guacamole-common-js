@@ -40,7 +40,7 @@ class VisibleLayer extends Layer {
     div.style.left = "0px";
     div.style.top = "0px";
     div.style.overflow = "hidden";
-    let __super_resize = super.resize;
+    let __super_resize = super.resize.bind(this);
     this.resize = (width, height) => {
 
       // Resize containing div

@@ -1,8 +1,8 @@
 import ArrayBufferReader from "./ArrayBufferReader";
 import ArrayBufferWriter from "./ArrayBufferWriter";
 import AudioContextFactory from "./AudioContextFactory";
-import {AudioPlayer, getInstance as getAudioPlayerInstance} from "./AudioPlayer";
-import {AudioRecorder, getInstance as getAudioRecorderInstance} from "./AudioRecorder";
+import {getInstance as getAudioPlayerInstance} from "./AudioPlayer";
+import {getInstance as getAudioRecorderInstance} from "./AudioRecorder";
 import RawAudioFormat from "./RawAudioFormat";
 import RawAudioPlayer from "./RawAudioPlayer";
 import RawAudioRecorder from "./RawAudioRecorder";
@@ -55,8 +55,6 @@ export {
   ArrayBufferWriter,
   ArrayBufferReader,
   AudioContextFactory,
-  AudioPlayer,
-  AudioRecorder,
   RawAudioFormat,
   RawAudioPlayer,
   RawAudioRecorder,
