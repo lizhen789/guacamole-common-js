@@ -1,5 +1,6 @@
 import OutputStream from "./OutputStream";
 import RawAudioRecorder, {isSupportedType} from "./RawAudioRecorder";
+import {Mimetype} from "./MimeType";
 
 /**
  * Abstract audio recorder which streams arbitrary audio data to an underlying
@@ -29,7 +30,7 @@ interface AudioRecorder {
  *          writing to the given stream, or null if support for the given mimetype
  *          is absent.
  */
-const getInstance = (stream: OutputStream, mimetype: string): AudioRecorder | null => {
+const getInstance = (stream: OutputStream, mimetype: Mimetype): AudioRecorder | null => {
   // Use raw audio recorder if possible
   if (RawAudioRecorder && isSupportedType(mimetype)) {
     return new RawAudioRecorder(stream, mimetype);

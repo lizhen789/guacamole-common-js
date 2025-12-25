@@ -7,8 +7,15 @@
     "src"
   ],
   "type": "module",
-  "module": "src/index.ts",
-  "main": "src/index.ts",
+  "module": "dist/index.mjs",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
+  },
   "scripts": {
     "build": "tsdown"
   },

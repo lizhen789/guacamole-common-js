@@ -1,5 +1,6 @@
 import InputStream from "./InputStream";
 import RawAudioPlayer, {isSupportedType} from "./RawAudioPlayer";
+import {Mimetype} from "./MimeType";
 
 /**
  * Abstract audio player which accepts, queues and plays back arbitrary audio
@@ -26,7 +27,7 @@ interface AudioPlayer {
  *          reading from the given stream, or null if support for the given mimetype
  *          is absent.
  */
-const getInstance = (stream: InputStream, mimetype: string): AudioPlayer | null => {
+const getInstance = (stream: InputStream, mimetype: Mimetype): AudioPlayer | null => {
   // Use raw audio player if possible
   if (isSupportedType(mimetype)) {
     return new RawAudioPlayer(stream, mimetype);

@@ -45,6 +45,7 @@ import VideoPlayer from "./VideoPlayer";
 import {Keyboard, KeydownEvent, KeyEvent, KeypressEvent, KeyupEvent} from "./key";
 import {API_VERSION} from "./Version";
 import ModifierState from "./ModifierState";
+import type {Mimetype} from "./MimeType"
 
 export {
   InputStream,
@@ -110,6 +111,7 @@ export {
   DisplayFrame,
   DisplayTask,
   Pressed,
+  Mimetype,
   getAudioPlayerInstance,
   getAudioRecorderInstance
 }

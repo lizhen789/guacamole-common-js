@@ -1,4 +1,5 @@
 import InputStream from './InputStream';
+import {Mimetype} from "./MimeType";
 
 /**
  * A reader which automatically handles the given input stream, returning
@@ -27,7 +28,7 @@ class DataURIReader {
    * @param stream The stream that data will be read from.
    * @param mimetype The mimetype of the data being received.
    */
-  constructor(stream: InputStream, mimetype: string) {
+  constructor(stream: InputStream, mimetype: Mimetype) {
     this.stream = stream;
     this.uri = 'data:' + mimetype + ';base64,';
 

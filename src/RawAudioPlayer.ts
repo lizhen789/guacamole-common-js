@@ -3,6 +3,7 @@ import RawAudioFormat from "./RawAudioFormat";
 import ArrayBufferReader from "./ArrayBufferReader";
 import InputStream from "./InputStream";
 import AudioContextFactory from "./AudioContextFactory";
+import {Mimetype} from "./MimeType"
 
 type AudioBufferSource = {
   noteOn: (time: number) => void
@@ -84,7 +85,7 @@ class RawAudioPlayer implements AudioPlayer {
    *                 must be a "audio/L8" or "audio/L16" mimetype with appropriate
    *                 parameters.
    */
-  constructor(stream: InputStream, mimetype: string) {
+  constructor(stream: InputStream, mimetype: Mimetype) {
     const format = RawAudioFormat.parse(mimetype);
     if (!format) {
       throw new Error(`Unsupported audio format: ${mimetype}`);
@@ -369,7 +370,7 @@ class RawAudioPlayer implements AudioPlayer {
  *     true if the given mimetype is supported by Guacamole.RawAudioPlayer,
  *     false otherwise.
  */
-const isSupportedType = (mimetype: string): boolean => {
+const isSupportedType = (mimetype: Mimetype): boolean => {
   // No supported types if no Web Audio API
   if (!AudioContextFactory.getAudioContext()) {
     return false;

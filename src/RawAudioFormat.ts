@@ -1,3 +1,5 @@
+import {Mimetype} from "./MimeType";
+
 /**
  * 音频格式模板接口，用于构造RawAudioFormat实例
  */
@@ -51,7 +53,7 @@ class RawAudioFormat implements AudioFormatTemplate {
    *          audio data represented by the given mimetype, or null if the given
    *          mimetype is not supported.
    */
-  static parse(mimetype: string): RawAudioFormat | null {
+  static parse(mimetype: Mimetype): RawAudioFormat | null {
     let bytesPerSample: number | undefined;
     let rate: number | null = null;
     let channels = 1; // Default for both "audio/L8" and "audio/L16" is one channel

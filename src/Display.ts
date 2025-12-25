@@ -5,6 +5,7 @@ import DisplayTask from './DisplayTask';
 import InputStream from './InputStream';
 import DataURIReader from './DataURIReader';
 import BlobReader from './BlobReader';
+import {Mimetype} from "./MimeType";
 
 
 /**
@@ -319,7 +320,7 @@ class Display {
     }
   }
 
-  drawStream(layer: Layer, x: number, y: number, stream: InputStream, mimetype: string) {
+  drawStream(layer: Layer, x: number, y: number, stream: InputStream, mimetype: Mimetype) {
     // If createImageBitmap() is available, load the image as a blob so
     // that function can be used
     if (window.createImageBitmap !== undefined) {
@@ -353,7 +354,7 @@ class Display {
     image.src = url;
   }
 
-  play(layer: Layer, mimetype: string, _duration: number, url: string) {
+  play(layer: Layer, mimetype: Mimetype, _duration: number, url: string) {
     // Start loading the video
     let video = document.createElement('video');
     video.setAttribute('type', mimetype);

@@ -1,8 +1,10 @@
+import {Mimetype} from "./MimeType";
+
 class BlobBuilder {
   private readonly blobs: Blob[] = [];
-  private readonly mimetype: string;
+  private readonly mimetype: Mimetype;
 
-  constructor(mimetype: string) {
+  constructor(mimetype: Mimetype) {
     this.mimetype = mimetype;
   }
 

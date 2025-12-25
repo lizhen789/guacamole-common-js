@@ -11,6 +11,7 @@ import Status, {StatusCode} from './Status';
 import InputStream from './InputStream';
 import DefaultTransferFunction, {DefaultTransferFunctionType} from './DefaultTransferFunction';
 import Layer from './Layer';
+import {Mimetype} from "./MimeType";
 
 /**
  * 客户端状态常量
@@ -170,17 +171,17 @@ class Client {
    */
   onStateChange?: (state: ClientState) => void;
   onMultitouch?: (layer: Layer, val: number) => void;
-  onArgv?: (stream: InputStream, mimetype: string, name: string) => void;
-  onAudio?: (stream: InputStream, mimetype: string) => AudioPlayer;
-  onClipboard?: (stream: InputStream, mimetype: string) => void;
+  onArgv?: (stream: InputStream, mimetype: Mimetype, name: string) => void;
+  onAudio?: (stream: InputStream, mimetype: Mimetype) => AudioPlayer;
+  onClipboard?: (stream: InputStream, mimetype: Mimetype) => void;
   onError?: (status: Status) => void;
-  onFile?: (stream: InputStream, mimetype: string, filename: string) => void;
+  onFile?: (stream: InputStream, mimetype: Mimetype, filename: string) => void;
   onFilesystem?: (object: GuacamoleObject, name: string) => void;
   onName?: (name: string) => void;
-  onPipe?: (stream: InputStream, mimetype: string, name: string) => void;
+  onPipe?: (stream: InputStream, mimetype: Mimetype, name: string) => void;
   onRequired?: (parameters: string[]) => void;
   onSync?: (timestamp: number) => void;
-  onVideo?: (stream: InputStream, layer: Layer, mimetype: string) => VideoPlayer;
+  onVideo?: (stream: InputStream, layer: Layer, mimetype: Mimetype) => VideoPlayer;
 
 
   /**
@@ -494,37 +495,37 @@ class Client {
     return this.outputStreams[index] = new OutputStream(this, index);
   }
 
-  createAudioStream(mimetype: string) {
+  createAudioStream(mimetype: Mimetype) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('audio', stream.index, mimetype);
     return stream;
   }
 
-  createFileStream(mimetype: string, filename: string) {
+  createFileStream(mimetype: Mimetype, filename: string) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('file', stream.index, mimetype, filename);
     return stream;
   }
 
-  createPipeStream(mimetype: string, name: string) {
+  createPipeStream(mimetype: Mimetype, name: string) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('pipe', stream.index, mimetype, name);
     return stream;
   }
 
-  createClipboardStream(mimetype: string) {
+  createClipboardStream(mimetype: Mimetype) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('clipboard', stream.index, mimetype);
     return stream;
   }
 
-  createArgumentValueStream(mimetype: string, name: string) {
+  createArgumentValueStream(mimetype: Mimetype, name: string) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('argv', stream.index, mimetype, name);
     return stream;
   }
 
-  createObjectOutputStream(index: number, mimetype: string, name: string) {
+  createObjectOutputStream(index: number, mimetype: Mimetype, name: string) {
     let stream = this.createOutputStream();
     this.tunnel.sendMessage('put', index, stream.index, mimetype, name);
     return stream;

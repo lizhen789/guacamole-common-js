@@ -4,6 +4,7 @@ import AudioRecorder from "./AudioRecorder";
 import ArrayBufferWriter from "./ArrayBufferWriter";
 import OutputStream from "./OutputStream";
 import Status, {StatusCode} from "./Status";
+import {Mimetype} from "./MimeType";
 
 /**
  * Implementation of Guacamole.AudioRecorder providing support for raw PCM format
@@ -93,7 +94,7 @@ class RawAudioRecorder implements AudioRecorder {
    *                 must be a "audio/L8" or "audio/L16" mimetype with appropriate
    *                 parameters.
    */
-  constructor(stream: OutputStream, mimetype: string) {
+  constructor(stream: OutputStream, mimetype: Mimetype) {
     const format = RawAudioFormat.parse(mimetype);
     if (!format) {
       throw new Error(`Unsupported mimetype: ${mimetype}`);
@@ -404,7 +405,7 @@ class RawAudioRecorder implements AudioRecorder {
  *     true if the given mimetype is supported by Guacamole.RawAudioRecorder,
  *     false otherwise.
  */
-const isSupportedType = (mimetype: string): boolean => {
+const isSupportedType = (mimetype: Mimetype): boolean => {
   // No supported types if no Web Audio API
   if (!AudioContextFactory.getAudioContext())
     return false;

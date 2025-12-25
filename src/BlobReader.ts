@@ -1,5 +1,6 @@
 import InputStream from "./InputStream";
 import BlobBuilder from "./BlobBuilder";
+import {Mimetype} from "./MimeType";
 
 
 /**
@@ -34,7 +35,7 @@ class BlobReader {
    * @param stream The stream that data will be read from.
    * @param mimetype The mimetype of the blob being built.
    */
-  constructor(stream: InputStream, mimetype: string) {
+  constructor(stream: InputStream, mimetype: Mimetype) {
 
     /**
      * The length of this Guacamole.InputStream in bytes.

@@ -1,9 +1,10 @@
 import InputStream from "./InputStream";
 import Layer from "./Layer";
+import {Mimetype} from "./MimeType";
 
 
 class VideoPlayer {
-  isSupportedType(_mimetype: string): boolean {
+  isSupportedType(_mimetype: Mimetype): boolean {
     return false;
   }
 
@@ -15,7 +16,7 @@ class VideoPlayer {
     // Default implementation - do nothing
   }
 
-  static getInstance(_stream: InputStream, _layer: Layer, _mimetype: string): VideoPlayer | null {
+  static getInstance(_stream: InputStream, _layer: Layer, _mimetype: Mimetype): VideoPlayer | null {
     return null;
   }
 }

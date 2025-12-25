@@ -1,8 +1,9 @@
 import InputStream from "./InputStream";
 import OutputStream from "./OutputStream";
 import Client from "./Client";
+import {Mimetype} from "./MimeType";
 
-type BodyCallBack = (stream: InputStream, mimetype: string) => void;
+type BodyCallBack = (stream: InputStream, mimetype: Mimetype) => void;
 
 /**
  * An object used by the Guacamole client to house arbitrarily-many named
@@ -70,7 +71,7 @@ class GuacamoleObject {
   }
 
 
-  onBody(inputStream: InputStream, mimetype: string, name: string) {
+  onBody(inputStream: InputStream, mimetype: Mimetype, name: string) {
     const callback = this.dequeueBodyCallback(name);
     if (callback) {
       callback(inputStream, mimetype);
@@ -94,7 +95,7 @@ class GuacamoleObject {
    * @param name The name of the stream to request.
    * @param mimetype The mimetype of the data to be sent along the stream.
    */
-  createOutputStream(mimetype: string, name: string): OutputStream {
+  createOutputStream(mimetype: Mimetype, name: string): OutputStream {
     return this.client.createObjectOutputStream(this.index, mimetype, name);
   }
 }
