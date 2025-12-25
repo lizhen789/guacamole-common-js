@@ -224,22 +224,18 @@ class Client {
   }
 
   connect(data?: string): void {
-    console.log('设置连接状态');
     this.setState(ClientState.STATE_CONNECTING);
 
     try {
-      console.log('准备建立连接');
       this.tunnel.connect(data);
     } catch (status) {
       this.setState(ClientState.STATE_IDLE);
       console.error(status);
       throw status;
     }
-    console.log('连接创建成功');
 
     // Ping every 5 seconds (ensure connection alive)
     this.pingInterval = window.setInterval(() => {
-      console.log('发送心跳');
       this.tunnel.sendMessage('nop');
     }, 5000);
 
