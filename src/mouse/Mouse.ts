@@ -2,6 +2,7 @@ import MouseEventTarget from "./MouseEventTarget";
 import Buttons from "./Buttons";
 import {GuacamoleDOMEvent} from "../Event";
 import Position from "../Position";
+import GuacamoleMouseEvent from "./GuacamoleMouseEvent";
 
 /**
  * Whether the browser supports CSS3 cursor styling, including hotspot
@@ -33,6 +34,8 @@ const CSS3_CURSOR_SUPPORTED = (() => {
   return /\burl\([^()]*\)\s+0\s+0\b/.test(div.style.cursor || "");
 
 })();
+
+type MouseEventListener = (event: GuacamoleMouseEvent) => void;
 
 class Mouse extends MouseEventTarget {
   private readonly element: HTMLElement;
@@ -286,6 +289,14 @@ class Mouse extends MouseEventTarget {
 
     // Otherwise, setting cursor failed
     return false;
+  }
+
+  onEach(types: string[], listener: MouseEventListener): void {
+    super.onEach(types, listener as EventListener)
+  }
+
+  on(type: string, listener: MouseEventListener): void {
+    super.on(type, listener as EventListener)
   }
 }
 
