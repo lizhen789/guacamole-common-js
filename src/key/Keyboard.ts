@@ -24,7 +24,7 @@ class Keyboard {
   private key_repeat_timeout: number | null = null;
   private key_repeat_interval: number | null = null;
 
-  onKeyDown?: (key: number) => boolean;
+  onKeyDown?: (key: number) => boolean | void;
   onKeyUp?: (key: number) => void;
 
   constructor(element: HTMLElement | Document) {
@@ -64,7 +64,7 @@ class Keyboard {
       // Send key event
       if (this.onKeyDown) {
         let result = this.onKeyDown(keysym);
-        this.last_keydown_result[keysym] = result;
+        this.last_keydown_result[keysym] = result ?? false;
 
         // Stop any current repeat
         this.key_repeat_timeout && clearTimeout(this.key_repeat_timeout);
@@ -424,26 +424,28 @@ class Keyboard {
 
   private _keydown(e: KeyboardEvent) {
 
-
+    console.log("按下的按键", e)
     // Only intercept if handler set
     if (!this.onKeyDown) return;
 
     // Ignore events which have already been handled
     if (!this.markEvent(e)) return;
 
-    let keydownEvent = new KeydownEvent(e);
+    const keydownEvent = new KeydownEvent(e);
 
     // Ignore (but do not prevent) the "composition" keycode sent by some
     // browsers when an IME is in use (see: http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html)
-    if (keydownEvent.keyCode === 229)
+    if (keydownEvent.keyCode === 229) {
       return;
+    }
 
     // Log event
     this.eventLog.push(keydownEvent);
 
     // Interpret as many events as possible, prevent default if indicated
-    if (this.interpret_events())
+    if (this.interpret_events()) {
       e.preventDefault();
+    }
   }
 
   private _keypress(e: KeyboardEvent) {
@@ -480,18 +482,18 @@ class Keyboard {
 
   listenTo(element: HTMLElement) {
     // When key pressed
-    element.addEventListener("keydown", this._keydown, true);
+    element.addEventListener("keydown", this._keydown.bind(this), true);
 
     // When key pressed
-    element.addEventListener("keypress", this._keypress, true);
+    element.addEventListener("keypress", this._keypress.bind(this), true);
 
     // When key released
-    element.addEventListener("keyup", this._keyup, true);
+    element.addEventListener("keyup", this._keyup.bind(this), true);
 
 
     // Automatically type text entered into the wrapped field
-    element.addEventListener("input", this._handleInput, false);
-    element.addEventListener("compositionend", this._handleComposition, false);
+    element.addEventListener("input", this._handleInput.bind(this), false);
+    element.addEventListener("compositionend", this._handleComposition.bind(this), false);
   }
 
   private _handleInput(e: Event) {
@@ -503,7 +505,7 @@ class Keyboard {
     const {data, isComposing} = e as InputEvent;
     // Type all content written
     if (data && !isComposing) {
-      this.element.removeEventListener("compositionend", this._handleComposition, false);
+      this.element.removeEventListener("compositionend", this._handleComposition.bind(this), false);
       this.type(data);
     }
   }

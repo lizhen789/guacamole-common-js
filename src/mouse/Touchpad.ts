@@ -62,11 +62,11 @@ class Touchpad extends MouseEventTarget {
      */
     this.currentState = new GuacamoleMouseState();
 
-    element.addEventListener("touchend", this._touchend, false);
+    element.addEventListener("touchend", this._touchend.bind(this), false);
 
-    element.addEventListener("touchstart", this._touchstart, false);
+    element.addEventListener("touchstart", this._touchstart.bind(this), false);
 
-    element.addEventListener("touchmove", this._touchmove, false);
+    element.addEventListener("touchmove", this._touchmove.bind(this), false);
   }
 
   private _touchend(e: TouchEvent) {

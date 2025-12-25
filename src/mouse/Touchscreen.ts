@@ -85,11 +85,11 @@ class Touchscreen extends MouseEventTarget {
      * detected.
      */
     this._longPressThreshold = 500;
-    element.addEventListener("touchend", this._touchend, false);
+    element.addEventListener("touchend", this._touchend.bind(this), false);
 
-    element.addEventListener("touchstart", this._touchstart, false);
+    element.addEventListener("touchstart", this._touchstart.bind(this), false);
 
-    element.addEventListener("touchmove", this._touchmove, false);
+    element.addEventListener("touchmove", this._touchmove.bind(this), false);
   }
 
   private finger_moved(e: TouchEvent) {

@@ -360,18 +360,19 @@ class Display {
     video.src = url;
 
     // Start copying frames when playing
-    video.addEventListener('play', function () {
-      function render_callback() {
-        layer.drawImage(0, 0, video);
-        if (!video.ended) {
-          window.setTimeout(render_callback, 20);
-        }
-      }
-
-      render_callback();
-    }, false);
-
+    video.addEventListener('play', this._play.bind(this, layer, video), false);
     this.scheduleTask(video.play);
+  }
+
+  private _play(layer: Layer, video: HTMLVideoElement) {
+    function render_callback() {
+      layer.drawImage(0, 0, video);
+      if (!video.ended) {
+        window.setTimeout(render_callback, 20);
+      }
+    }
+
+    render_callback();
   }
 
   transfer(srcLayer: Layer, srcX: number, srcY: number, srcWidth: number, srcHeight: number, dstLayer: Layer, dstX: number, dstY: number, transferFunction: ((src: Pixel, dst: Pixel) => void)) {

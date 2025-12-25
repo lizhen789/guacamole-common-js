@@ -33,50 +33,59 @@ class InputSink {
     this.field.style.color = 'transparent';
 
     // Keep field clear when modified via normal keypresses
-    this.field.addEventListener("keypress", () => {
-      this.field.value = '';
-    }, false);
+    this.field.addEventListener("keypress", this._keypress.bind(this), false);
 
     // Keep field clear when modified via composition events
-    this.field.addEventListener("compositionend", (e: CompositionEvent) => {
-      if (e.data) {
-        this.field.value = '';
-      }
-    }, false);
+    this.field.addEventListener("compositionend", this._compositionend.bind(this), false);
 
     // Keep field clear when modified via input events
-    this.field.addEventListener("input", (e: Event) => {
-      const inputEvent = e as InputEvent;
-      if (inputEvent.data && !inputEvent.isComposing) {
-        this.field.value = '';
-      }
-    }, false);
+    this.field.addEventListener("input", this._input.bind(this), false);
 
     // Whenever focus is gained, automatically click to ensure cursor is
     // actually placed within the field (the field may simply be highlighted or
     // outlined otherwise)
-    this.field.addEventListener("focus", () => {
-      setTimeout(() => {
-        this.field.click();
-        this.field.select();
-      }, 0);
-    }, true);
+    this.field.addEventListener("focus", this._focus.bind(this), true);
 
     // Automatically refocus input sink if part of DOM
-    document.addEventListener("keydown", () => {
-      // Do not refocus if focus is on an input field
-      const focused = document.activeElement;
-      if (focused && focused !== document.body) {
-        // Only consider focused input fields which are actually visible
-        const rect = focused.getBoundingClientRect();
-        if (rect.left + rect.width > 0 && rect.top + rect.height > 0)
-          return;
-      }
+    document.addEventListener("keydown", this._keydown.bind(this), true);
+  }
 
-      // Refocus input sink instead of handling click
-      this.focus();
+  private _keypress() {
+    this.field.value = '';
+  }
 
-    }, true);
+  private _compositionend(e: CompositionEvent) {
+    if (e.data) {
+      this.field.value = '';
+    }
+  }
+
+  private _input(e: Event) {
+    const inputEvent = e as InputEvent;
+    if (inputEvent.data && !inputEvent.isComposing) {
+      this.field.value = '';
+    }
+  }
+
+  private _focus() {
+    setTimeout(() => {
+      this.field.click();
+      this.field.select();
+    }, 0);
+  }
+
+  private _keydown() {
+    // Do not refocus if focus is on an input field
+    const focused = document.activeElement;
+    if (focused && focused !== document.body) {
+      // Only consider focused input fields which are actually visible
+      const rect = focused.getBoundingClientRect();
+      if (rect.left + rect.width > 0 && rect.top + rect.height > 0)
+        return;
+    }
+
+    // Refocus input sink instead of handling click
+    this.focus();
   }
 
   /**

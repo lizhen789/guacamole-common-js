@@ -11,9 +11,9 @@ class Touch extends GuacamoleEventTarget {
   constructor(element: HTMLElement) {
     super();
     this.element = element;
-    element.addEventListener('touchstart', this.touchstart, false);
-    element.addEventListener('touchmove', this.touchmove, false);
-    element.addEventListener('touchend', this.touchend, false);
+    element.addEventListener('touchstart', this.touchstart.bind(this), false);
+    element.addEventListener('touchmove', this.touchmove.bind(this), false);
+    element.addEventListener('touchend', this.touchend.bind(this), false);
   }
 
   private touchstart(e: TouchEvent) {

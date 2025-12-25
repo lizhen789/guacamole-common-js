@@ -577,13 +577,13 @@ class OnScreenKeyboard {
       };
 
       // Handle touch events on key
-      keyElement.addEventListener("touchstart", touchPress, true);
-      keyElement.addEventListener("touchend", touchRelease, true);
+      keyElement.addEventListener("touchstart", touchPress.bind(this), true);
+      keyElement.addEventListener("touchend", touchRelease.bind(this), true);
 
       // Handle mouse events on key
-      keyElement.addEventListener("mousedown", mousePress, true);
-      keyElement.addEventListener("mouseup", mouseRelease, true);
-      keyElement.addEventListener("mouseout", mouseRelease, true);
+      keyElement.addEventListener("mousedown", mousePress.bind(this), true);
+      keyElement.addEventListener("mouseup", mouseRelease.bind(this), true);
+      keyElement.addEventListener("mouseout", mouseRelease.bind(this), true);
 
     } // end if object is key name
 
