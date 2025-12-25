@@ -79,14 +79,14 @@ class RawAudioFormat implements AudioFormatTemplate {
 
       // All parameters must have an equals sign separating name from value
       let equals = parameter.indexOf('=');
-      if (equals === -1){
+      if (equals === -1) {
         return null;
       }
 
 
       // Parse name and value from parameter string
-      let name  = parameter.substring(0, equals);
-      let value = parameter.substring(equals+1);
+      let name = parameter.substring(0, equals);
+      let value = parameter.substring(equals + 1);
 
       // Handle each supported parameter
       switch (name) {

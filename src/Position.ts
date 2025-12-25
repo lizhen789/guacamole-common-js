@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Represents a position in 2-D space.
  */

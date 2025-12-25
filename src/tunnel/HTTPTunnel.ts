@@ -1,4 +1,4 @@
-import {TunnelState,Tunnel} from "./Tunnel";
+import {Tunnel, TunnelState} from "./Tunnel";
 import Status, {fromHTTPCode, StatusCode} from "../Status";
 import {InstructionHandlerKey} from "../Client";
 

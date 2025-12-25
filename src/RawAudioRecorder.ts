@@ -119,10 +119,12 @@ class RawAudioRecorder implements AudioRecorder {
     // Once audio stream is successfully open, request and begin reading audio
     this.writer.onAck = (status: Status) => this.audioStreamAcknowledged(status);
   }
-  onClose(){
+
+  onClose() {
 
   }
-  onError(){
+
+  onError() {
 
   }
 

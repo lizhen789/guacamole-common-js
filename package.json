@@ -1,29 +1,24 @@
 {
   "name": "guacamole-common-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "guacamole",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
-  "module": "dist/index.ts",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.ts",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "module": "src/index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsup"
+    "build": "tsdown"
   },
   "dependencies": {
     "es-toolkit": "^1.42.0"
   },
   "devDependencies": {
     "@swc/core": "^1.15.3",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.18.3",
     "typescript": "^5.9.3"
   },
-  "private": true
+  "private": false
 }

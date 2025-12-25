@@ -69,7 +69,7 @@ class ModifierState {
   }
 }
 
-type ModifierStateType=keyof ModifierState;
+type ModifierStateType = keyof ModifierState;
 export {
   ModifierStateType
 }

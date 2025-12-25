@@ -1,8 +1,8 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  target:"es5",
+  target:"ES2015",
   outDir: 'dist',
   clean: true,
   format: ['esm'],

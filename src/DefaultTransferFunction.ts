@@ -109,7 +109,7 @@ const DefaultTransferFunction = {
     dst.blue = 0xFF & (src.blue | ~dst.blue);
   }
 }
-type DefaultTransferFunctionType = keyof  typeof DefaultTransferFunction
+type DefaultTransferFunctionType = keyof typeof DefaultTransferFunction
 export {
   DefaultTransferFunctionType
 }

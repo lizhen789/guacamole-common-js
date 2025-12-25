@@ -14,4 +14,5 @@ class GuacamoleTouchEvent extends GuacamoleDOMEvent {
     return this._state;
   }
 }
+
 export default GuacamoleTouchEvent

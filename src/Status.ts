@@ -98,7 +98,6 @@ enum StatusCode {
 }
 
 
-
 /**
  * A Guacamole status. Each Guacamole status consists of a status code, defined
  * by the protocol, and an optional human-readable message, usually only
