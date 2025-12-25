@@ -424,7 +424,6 @@ class Keyboard {
 
   private _keydown(e: KeyboardEvent) {
 
-    console.log("按下的按键", e)
     // Only intercept if handler set
     if (!this.onKeyDown) return;
 

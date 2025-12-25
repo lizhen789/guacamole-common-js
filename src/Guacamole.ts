@@ -16,7 +16,7 @@ import StringReader from "./StringReader";
 import StringWriter from "./StringWriter";
 import Parser from "./Parser";
 import UTF8Parser from "./UTF8Parser";
-import Client from "./Client";
+import Client, {Pressed} from "./Client";
 import InputSink from "./InputSink";
 import IntegerPool from "./IntegerPool";
 import GuacamoleObject from "./GuacamoleObject";
@@ -109,6 +109,7 @@ export {
   WebSocketTunnel,
   DisplayFrame,
   DisplayTask,
+  Pressed,
   getAudioPlayerInstance,
   getAudioRecorderInstance
 }
