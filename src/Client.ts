@@ -287,15 +287,15 @@ class Client {
     if (!layer) {
 
       // Create layer based on index
-      if (index === 0)
+      if (index === 0) {
         layer = this.display.getDefaultLayer();
-      else if (index > 0)
+      } else if (index > 0) {
         layer = this.display.createLayer();
-      else
+      } else {
         layer = this.display.createBuffer();
+      }
       // Add new layer
       this.layers[index] = layer;
-
     }
 
     return layer;
@@ -357,8 +357,7 @@ class Client {
     });
   }
 
-  importState(state: StateType, callback?: any) {
-
+  importState(state: StateType, callback: () => void) {
 
     let key;
     let index;
@@ -613,8 +612,9 @@ class Client {
     if (stream) {
 
       // Signal ack if handler defined
-      if (stream.onAck)
+      if (stream.onAck) {
         stream.onAck(new Status(code, reason));
+      }
 
       // If code is an error, invalidate stream if not already
       // invalidated by onack handler
@@ -625,6 +625,7 @@ class Client {
     }
   };
   private _arcHandler = (parameters: string[]) => {
+    console.log("_arcHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let x = parseInt(parameters[1]);
     let y = parseInt(parameters[2]);
@@ -636,6 +637,7 @@ class Client {
     this.display.arc(layer, x, y, radius, startAngle, endAngle, negative != 0);
   };
   private _argvHandler = (parameters: string[]) => {
+    console.log("_argvHandler")
     let stream_index = parseInt(parameters[0]);
     let mimetype = parameters[1];
     let name = parameters[2];
@@ -652,6 +654,7 @@ class Client {
     }
   };
   private _audioHandler = (parameters: string[]) => {
+    console.log("_audioHandler")
     let stream_index = parseInt(parameters[0]);
     let mimetype = parameters[1];
 
@@ -682,6 +685,7 @@ class Client {
     }
   };
   private _blobHandler = (parameters: string[]) => {
+    console.log("_blobHandler")
     // Get stream
     let stream_index = parseInt(parameters[0]);
     let data = parameters[1];
@@ -693,6 +697,7 @@ class Client {
     }
   };
   private _bodyHandler = (parameters: string[]) => {
+    console.log("_bodyHandler")
     // Get object
     let objectIndex = parseInt(parameters[0]);
     let object = this.objects[objectIndex];
@@ -712,6 +717,7 @@ class Client {
     }
   };
   private _cfillHandler = (parameters: string[]) => {
+    console.log("_cfillHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let r = parseInt(parameters[2]);
@@ -723,11 +729,13 @@ class Client {
     this.display.fillColor(layer, r, g, b, a);
   };
   private _clipHandler = (parameters: string[]) => {
+    console.log("_clipHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
 
     this.display.clip(layer);
   };
   private _clipboardHandler = (parameters: string[]) => {
+    console.log("_clipboardHandler")
     let stream_index = parseInt(parameters[0]);
     let mimetype = parameters[1];
 
@@ -747,6 +755,7 @@ class Client {
     this.display.close(layer);
   };
   private _copyHandler = (parameters: string[]) => {
+    console.log("_copyHandler")
     let srcL = this.getLayer(parseInt(parameters[0]));
     let srcX = parseInt(parameters[1]);
     let srcY = parseInt(parameters[2]);
@@ -761,6 +770,7 @@ class Client {
     this.display.copy(srcL, srcX, srcY, srcWidth, srcHeight, dstL, dstX, dstY);
   };
   private _cstrokeHandler = (parameters: string[]) => {
+    console.log("_cstrokeHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let cap = this.lineCap[parseInt(parameters[2])];
@@ -775,6 +785,7 @@ class Client {
     this.display.strokeColor(layer, cap, join, thickness, r, g, b, a);
   };
   private _cursorHandler = (parameters: string[]) => {
+    console.log("_cursorHandler")
     let cursorHotspotX = parseInt(parameters[0]);
     let cursorHotspotY = parseInt(parameters[1]);
     let srcL = this.getLayer(parseInt(parameters[2]));
@@ -785,6 +796,7 @@ class Client {
     this.display.setCursor(cursorHotspotX, cursorHotspotY, srcL, srcX, srcY, srcWidth, srcHeight);
   };
   private _curveHandler = (parameters: string[]) => {
+    console.log("_curveHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let cp1x = parseInt(parameters[1]);
     let cp1y = parseInt(parameters[2]);
@@ -799,6 +811,7 @@ class Client {
     this.disconnect();
   };
   private _disposeHandler = (parameters: string[]) => {
+    console.log("_disposeHandler")
     let layer_index = parseInt(parameters[0]);
 
     // If visible layer, remove from parent
@@ -821,6 +834,7 @@ class Client {
   };
 
   private _distortHandler = (parameters: string[]) => {
+    console.log("_distortHandler")
     let layer_index = parseInt(parameters[0]);
     let a = parseFloat(parameters[1]);
     let b = parseFloat(parameters[2]);
@@ -836,6 +850,7 @@ class Client {
     }
   };
   private _errorHandler = (parameters: string[]) => {
+    console.log("_errorHandler")
     let reason = parameters[0];
     let code: StatusCode = parseInt(parameters[1]) as StatusCode;
 
@@ -847,6 +862,7 @@ class Client {
     this.disconnect();
   };
   private _endHandler = (parameters: string[]) => {
+    console.log("_endHandler")
     let stream_index = parseInt(parameters[0]);
 
     // Get stream
@@ -862,6 +878,7 @@ class Client {
     }
   };
   private _fileHandler = (parameters: string[]) => {
+    console.log("_fileHandler")
     let stream_index = parseInt(parameters[0]);
     let mimetype = parameters[1];
     let filename = parameters[2];
@@ -878,6 +895,7 @@ class Client {
     }
   };
   private _filesystemHandler = (parameters: string[]) => {
+    console.log("_filesystemHandler")
     let objectIndex = parseInt(parameters[0]);
     let name = parameters[1];
 
@@ -891,10 +909,12 @@ class Client {
 
   };
   private _identityHandler = (parameters: string[]) => {
+    console.log("_identityHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     this.display.setTransform(layer, 1, 0, 0, 1, 0, 0);
   };
   private _imgHandler = (parameters: string[]) => {
+    console.log("_imgHandler")
     let stream_index = parseInt(parameters[0]);
     let channelMask = parseInt(parameters[1]);
     let layer = this.getLayer(parseInt(parameters[2]));
@@ -910,6 +930,7 @@ class Client {
     this.display.drawStream(layer, x, y, stream, mimetype);
   };
   private _jpegHandler = (parameters: string[]) => {
+    console.log("_jpegHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let x = parseInt(parameters[2]);
@@ -920,6 +941,7 @@ class Client {
     this.display.draw(layer, x, y, 'data:image/jpeg;base64,' + data);
   };
   private _lfillHandler = (parameters: string[]) => {
+    console.log("_lfillHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let srcLayer = this.getLayer(parseInt(parameters[2]));
@@ -928,6 +950,7 @@ class Client {
     this.display.fillLayer(layer, srcLayer);
   };
   private _lineHandler = (parameters: string[]) => {
+    console.log("_lineHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let x = parseInt(parameters[1]);
     let y = parseInt(parameters[2]);
@@ -935,6 +958,7 @@ class Client {
     this.display.lineTo(layer, x, y);
   };
   private _lstrokeHandler = (parameters: string[]) => {
+    console.log("_lstrokeHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let srcLayer = this.getLayer(parseInt(parameters[2]));
@@ -944,6 +968,7 @@ class Client {
   };
 
   private _mouseHandler = (parameters: string[]) => {
+    console.log("_mouseHandler")
     let x = parseInt(parameters[0]);
     let y = parseInt(parameters[1]);
 
@@ -953,6 +978,7 @@ class Client {
   };
 
   private _moveHandler = (parameters: string[]) => {
+    console.log("_moveHandler")
     let layer_index = parseInt(parameters[0]);
     let parent_index = parseInt(parameters[1]);
     let x = parseInt(parameters[2]);
@@ -967,17 +993,20 @@ class Client {
     }
   };
   private _nameHandler = (parameters: string[]) => {
+    console.log("_nameHandler")
     if (this.onName) {
       this.onName(parameters[0]);
     }
   };
 
   private _nestHandler = (parameters: string[]) => {
+    console.log("_nestHandler")
     let parser = this.getParser(parseInt(parameters[0]));
     parser.receive(parameters[1]);
   };
 
   private _pipeHandler = (parameters: string[]) => {
+    console.log("_pipeHandler")
     let stream_index = parseInt(parameters[0]);
     let mimetype = parameters[1];
     let name = parameters[2];
@@ -994,6 +1023,7 @@ class Client {
     }
   };
   private _pngHandler = (parameters: string[]) => {
+    console.log("_pngHandler")
     let channelMask = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let x = parseInt(parameters[2]);
@@ -1005,14 +1035,17 @@ class Client {
   };
 
   private _popHandler = (parameters: string[]) => {
+    console.log("_popHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     this.display.pop(layer);
   };
   private _pushHandler = (parameters: string[]) => {
+    console.log("_pushHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     this.display.push(layer);
   };
   private _rectHandler = (parameters: string[]) => {
+    console.log("_rectHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let x = parseInt(parameters[1]);
     let y = parseInt(parameters[2]);
@@ -1023,15 +1056,18 @@ class Client {
   };
 
   private _requiredHandler = (parameters: string[]) => {
+    console.log("_requiredHandler")
     if (this.onRequired) {
       this.onRequired(parameters);
     }
   };
   private _resetHandler = (parameters: string[]) => {
+    console.log("_resetHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     this.display.reset(layer);
   };
   private _setHandler = (parameters: string[]) => {
+    console.log("_setHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let name = parameters[1];
     let value = parameters[2];
@@ -1043,6 +1079,7 @@ class Client {
     }
   };
   private _shadeHandler = (parameters: string[]) => {
+    console.log("_shadeHandler")
     let layer_index = parseInt(parameters[0]);
     let a = parseInt(parameters[1]);
 
@@ -1053,6 +1090,7 @@ class Client {
     }
   };
   private _sizeHandler = (parameters: string[]) => {
+    console.log("_sizeHandler")
     let layer_index = parseInt(parameters[0]);
     let layer = this.getLayer(layer_index);
     let width = parseInt(parameters[1]);
@@ -1061,6 +1099,7 @@ class Client {
     this.display.resize(layer, width, height);
   };
   private _startHandler = (parameters: string[]) => {
+    console.log("_startHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let x = parseInt(parameters[1]);
     let y = parseInt(parameters[2]);
@@ -1069,6 +1108,7 @@ class Client {
   };
 
   private _syncHandler = (parameters: string[]) => {
+    console.log("_syncHandler")
     let timestamp = parseInt(parameters[0]);
 
     // Flush display, send sync when done
@@ -1102,6 +1142,7 @@ class Client {
   };
 
   private _transferHandler = (parameters: string[]) => {
+    console.log( 'transferHandler')
     let srcL = this.getLayer(parseInt(parameters[0]));
     let srcX = parseInt(parameters[1]);
     let srcY = parseInt(parameters[2]);
@@ -1125,6 +1166,7 @@ class Client {
   };
 
   private _transformHandler = (parameters: string[]) => {
+    console.log("_transformHandler")
     let layer = this.getLayer(parseInt(parameters[0]));
     let a = parseFloat(parameters[1]);
     let b = parseFloat(parameters[2]);
@@ -1136,6 +1178,7 @@ class Client {
     this.display.transform(layer, a, b, c, d, e, f);
   };
   private _undefineHandler = (parameters: string[]) => {
+    console.log("_undefineHandler")
     // Get object
     let objectIndex = parseInt(parameters[0]);
     let object = this.objects[objectIndex];
@@ -1146,6 +1189,7 @@ class Client {
     }
   };
   private _videoHandler = (parameters: string[]) => {
+    console.log("_videoHandler")
     let stream_index = parseInt(parameters[0]);
     let layer = this.getLayer(parseInt(parameters[1]));
     let mimetype = parameters[2];

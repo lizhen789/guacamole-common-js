@@ -23,7 +23,7 @@ class VisibleLayer extends Layer {
 
   private _children: Record<number, VisibleLayer>;
 
-  constructor(width: number, height: number) {
+  constructor( width: number, height: number) {
     super(width, height);
     this._children = {};
     const canvas = this.getCanvas();
@@ -32,7 +32,7 @@ class VisibleLayer extends Layer {
     canvas.style.top = "0px";
 
     // Create div with given size
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.appendChild(canvas);
     div.style.width = width + "px";
     div.style.height = height + "px";
@@ -40,7 +40,7 @@ class VisibleLayer extends Layer {
     div.style.left = "0px";
     div.style.top = "0px";
     div.style.overflow = "hidden";
-    let __super_resize = super.resize.bind(this);
+    const __super_resize = super.resize.bind(this);
     this.resize = (width, height) => {
 
       // Resize containing div
@@ -80,7 +80,7 @@ class VisibleLayer extends Layer {
       parent._children[this.__unique_id] = this;
 
       // Reparent element
-      let parent_element = parent.getElement();
+      const parent_element = parent.getElement();
       parent_element.appendChild(this.element);
 
     }

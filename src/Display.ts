@@ -99,7 +99,6 @@ class Display {
 
     // Create default layer
     this.default_layer = new VisibleLayer(this.displayWidth, this.displayHeight);
-
     // Create cursor layer
     this.cursor = new VisibleLayer(0, 0);
     this.cursor.setChannelMask(Layer.SRC); // SRC channel

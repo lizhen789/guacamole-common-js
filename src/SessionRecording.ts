@@ -228,7 +228,7 @@ class SessionRecording {
         // If frame has associated absolute state, make that frame the
         // current state
         if (frame.clientState) {
-          this.playbackClient.importState(frame.clientState);
+          this.playbackClient.importState(frame.clientState,()=> void 0);
           break;
         }
 
