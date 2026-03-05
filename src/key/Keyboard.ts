@@ -7,7 +7,7 @@ import KeypressEvent from "./KeypressEvent";
 import KeyupEvent from "./KeyupEvent";
 
 class Keyboard {
-  private element: HTMLElement;
+  private element: HTMLElement | Document;
 
   public static _nextID: number = 0;
   private guacKeyboardID = Keyboard._nextID++;
@@ -43,6 +43,12 @@ class Keyboard {
       }
     }
     this.modifiers = new ModifierState();
+    // 预先绑定所有事件处理函数
+    this._keydown = this._keydown.bind(this);
+    this._keypress = this._keypress.bind(this);
+    this._keyup = this._keyup.bind(this);
+    this._handleInput = this._handleInput.bind(this);
+    this._handleComposition = this._handleComposition.bind(this);
     // Listen to given element, if any
     if (element) {
       this.listenTo(this.element);
@@ -422,15 +428,15 @@ class Keyboard {
     return true;
   }
 
-  private _keydown(e: KeyboardEvent) {
-
+  private _keydown(e: KeyboardEvent | Event) {
+    console.log("keydown",e)
     // Only intercept if handler set
     if (!this.onKeyDown) return;
 
     // Ignore events which have already been handled
     if (!this.markEvent(e)) return;
 
-    const keydownEvent = new KeydownEvent(e);
+    const keydownEvent = new KeydownEvent(e as KeyboardEvent);
 
     // Ignore (but do not prevent) the "composition" keycode sent by some
     // browsers when an IME is in use (see: http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html)
@@ -447,7 +453,7 @@ class Keyboard {
     }
   }
 
-  private _keypress(e: KeyboardEvent) {
+  private _keypress(e: KeyboardEvent | Event) {
 
 
     // Only intercept if handler set
@@ -457,7 +463,7 @@ class Keyboard {
     if (!this.markEvent(e)) return;
 
     // Log event
-    this.eventLog.push(new KeypressEvent(e));
+    this.eventLog.push(new KeypressEvent(e as KeyboardEvent));
 
     // Interpret as many events as possible, prevent default if indicated
     if (this.interpret_events()) {
@@ -465,7 +471,7 @@ class Keyboard {
     }
   }
 
-  private _keyup(e: KeyboardEvent) {
+  private _keyup(e: KeyboardEvent | Event) {
     // Only intercept if handler set
     if (!this.onKeyUp) return;
 
@@ -475,24 +481,41 @@ class Keyboard {
     e.preventDefault();
 
     // Log event, call for interpretation
-    this.eventLog.push(new KeyupEvent(e));
+    this.eventLog.push(new KeyupEvent(e as KeyboardEvent));
     this.interpret_events();
   }
 
-  listenTo(element: HTMLElement) {
+  listenTo(element: HTMLElement | Document) {
     // When key pressed
-    element.addEventListener("keydown", this._keydown.bind(this), true);
+    element.addEventListener("keydown", this._keydown, true);
 
     // When key pressed
-    element.addEventListener("keypress", this._keypress.bind(this), true);
+    element.addEventListener("keypress", this._keypress, true);
 
     // When key released
-    element.addEventListener("keyup", this._keyup.bind(this), true);
+    element.addEventListener("keyup", this._keyup, true);
 
 
     // Automatically type text entered into the wrapped field
-    element.addEventListener("input", this._handleInput.bind(this), false);
-    element.addEventListener("compositionend", this._handleComposition.bind(this), false);
+    element.addEventListener("input", this._handleInput, false);
+    element.addEventListener("compositionend", this._handleComposition, false);
+  }
+
+  unlistenTo(element: HTMLElement | Document) {
+    element.removeEventListener("keydown", this._keydown, true);
+    element.removeEventListener("keypress", this._keypress, true);
+    element.removeEventListener("keyup", this._keyup, true);
+    element.removeEventListener("input", this._handleInput, false);
+    element.removeEventListener("compositionend", this._handleComposition, false);
+    console.log("unlisten")
+  }
+
+  listen() {
+    this.listenTo(this.element)
+  }
+
+  unlisten() {
+    this.unlistenTo(this.element)
   }
 
   private _handleInput(e: Event) {
@@ -504,7 +527,7 @@ class Keyboard {
     const {data, isComposing} = e as InputEvent;
     // Type all content written
     if (data && !isComposing) {
-      this.element.removeEventListener("compositionend", this._handleComposition.bind(this), false);
+      this.element.removeEventListener("compositionend", this._handleComposition, false);
       this.type(data);
     }
   }

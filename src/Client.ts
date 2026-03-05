@@ -197,8 +197,9 @@ class Client {
     this.display = new Display();
     this.tunnel.onInstruction = (opcode: InstructionHandlerKey, parameters: string[]) => {
       let handler = this.instructionHandlers[opcode];
-      if (handler)
+      if (handler) {
         handler(parameters);
+      }
     };
   }
 
@@ -1142,7 +1143,7 @@ class Client {
   };
 
   private _transferHandler = (parameters: string[]) => {
-    console.log( 'transferHandler')
+    console.log('transferHandler')
     let srcL = this.getLayer(parseInt(parameters[0]));
     let srcX = parseInt(parameters[1]);
     let srcY = parseInt(parameters[2]);

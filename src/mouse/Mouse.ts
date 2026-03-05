@@ -120,10 +120,10 @@ class Mouse extends MouseEventTarget {
     element.addEventListener("mouseup", this._mouseup.bind(this), false);
     element.addEventListener("mouseout", this._mouseout.bind(this), false);
     element.addEventListener("selectstart", this._selectstart.bind(this), false);
-    element.addEventListener("touchmove", this._ignorePendingMouseEvents.bind(this), false);
-    element.addEventListener("touchstart", this._ignorePendingMouseEvents.bind(this), false);
-    element.addEventListener("touchend", this._ignorePendingMouseEvents.bind(this), false);
-    element.addEventListener('wheel', this._mousewheel_handler.bind(this), false);
+    element.addEventListener("touchmove", this._ignorePendingMouseEvents.bind(this), {passive: false});
+    element.addEventListener("touchstart", this._ignorePendingMouseEvents.bind(this), {passive: false});
+    element.addEventListener("touchend", this._ignorePendingMouseEvents.bind(this), {passive: false});
+    element.addEventListener('wheel', this._mousewheel_handler.bind(this), {passive: false});
   }
 
   private _contextmenu(e: PointerEvent) {
